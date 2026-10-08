@@ -42,6 +42,7 @@
         var box = jQuery(".box"); // reference to the HTML .box element
         var board = jQuery(".board"); // reference to the HTML .board element
         var boardWidth = board.width(); // the maximum X-Coordinate of the screen
+        var boardHeight = board.height();
 
         // update the boardWidth variable when the window is resized
         jQuery(window).on("resize", function () {
@@ -55,8 +56,9 @@
         box.on("click", handleBoxClick);
 
         // moves the Box to a new position on the screen along the X-Axis
-        function moveBoxTo(newPositionX) {
+        function moveBoxTo(newPositionX, newPositionY) {
           box.css("left", newPositionX);
+          box.css("top", newPositionY)
         }
 
         // changes the text displayed on the Box
@@ -69,7 +71,11 @@
         //////////////////////////////////////////////////////////////////
 
         // TODO 2 - Variable declarations
-
+        var positionX = 200;
+        var positionY = 200;
+        var points = 0;
+        var speed = 3;
+        var speedY = 3;
 
 
 
@@ -80,9 +86,23 @@
          * If the box drifts off the screen, turn it around!
          */
         function update() {
+          moveBoxTo(positionX, positionY);
+          positionX += speed;
+          positionY += speedY;
+          if(positionX > boardWidth - 50) {
+            speed = speed * -1;
+          }
+          if (positionX < 0) {
+            speed *= -1;
+          }
 
-        
+          if(positionY > boardHeight - 50){
+            speedY = speedY * -1
+          }
 
+          if(positionY < 0){
+            speedY *= -1
+          }
           
         }
 
@@ -94,7 +114,10 @@
          * - move the box to the left side of the screen.
          */
         function handleBoxClick() {
-
+          positionX = 0;
+          changeBoxText(points);
+          ++points;
+          speed += 3;
 
 
 
